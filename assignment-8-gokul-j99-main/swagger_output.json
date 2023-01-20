@@ -1,0 +1,129 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:9000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "definitions":{
+    "todo" :{
+        "properties": {
+            "id": {
+                "type": "integer",
+                "uniqueItems": true
+              },
+              "title" :{
+                "type": "string"
+              },
+              "description" : {
+                "type": "string"
+              },
+              "createdDate":{
+                "type": "date"
+              },
+              "lastModifiedDate" : {
+                "type" : "date"
+              }
+    }
+  },
+  "todos" : {
+    "type" : "array",
+    "$ref": "#/definitions/todo"
+  }
+},
+  "paths": {
+    "/todos": {
+      "post": {
+        "description": "This endpoint is used to add task to db",
+        "parameters": [{
+            "name": "todo",
+            "in": "body",
+            "schema": {
+                "$ref": "#/definitions/todo"
+              }
+        }],
+        "responses": {
+            "200": {
+                "description": "New Task is created",
+                "schema": {
+                  "$ref": "#/definitions/todo"
+                }
+            }
+        }
+      },
+      "get": {
+        "description": "This endpoint is used to fetch task from db",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+            "type" : "integer"
+            }
+        }
+        ],
+        "responses": {
+            "200": {
+                "description": "ALL Task is fetched",
+                "schema": {
+                  "$ref": "#/definitions/todos"
+                }
+            }
+        }
+      },
+      "put": {
+        "description": "This endpoint is used to update task in db",
+        "parameters": [
+            {
+                "in": "query",
+                "name": "id",
+                "required": true,
+                "schema": {
+                "type" : "integer"
+                }
+            },
+            {
+            "name": "todo",
+            "in": "body",
+            "schema": {
+                "$ref": "#/definitions/todo"
+              }
+        }],
+        "responses": {
+            "200": {
+                "description": "the Task is updated",
+                "schema": {
+                  "$ref": "#/definitions/todo"
+                }
+            }
+        }
+      },
+      "delete": {
+        "description": "This endpoint is used to delete data from db",
+        "parameters": [
+            {
+                "in": "query",
+                "name": "id",
+                "required": true,
+                "schema": {
+                "type" : "integer"
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "the Task is deleted",
+                "schema": {
+                  "$ref": "#/definitions/todo"
+                }
+            }
+        }
+      }
+    }
+  }
+}
